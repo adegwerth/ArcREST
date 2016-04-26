@@ -402,10 +402,15 @@ class Services(BaseAGSServer):
         Creates a new GIS service in the folder. A service is created by
         submitting a JSON representation of the service to this operation.
         """
-        url = self._url + "/createService"
+        if self._folderName is None:
+            url = self._url + "/createService"
+        else:
+            url = self._url + "/%s/createService" % self._folderName
+
         params = {
             "f" : "json"
         }
+
         if isinstance(service, str):
             params['service'] = service
         elif isinstance(service, dict):
